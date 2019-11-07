@@ -19,15 +19,26 @@ video {
     -o-transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
-    display: none;
 }
         
 
-canvas {
+canvas, video {
     position: absolute;
     top: 0px; 
     left: 0px; 
     right: 0px; 
-    bottom: 0px; 
+    /*bottom: 0px; */
     margin: auto;
+}
+
+button {
+    border-radius: 10px;
+    color: black;
+    background-color: white;
+    border-width: 0px;
+}
+
+#screenshots {
+    display: flex;
+    justify-content: center;
 }
