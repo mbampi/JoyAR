@@ -1,0 +1,33 @@
+
+html, body {
+    height:100%;
+    width:100%;
+    margin:0;
+    padding:0;
+    background-color: rgb(233, 251, 152);
+}
+
+/*video {
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome 
+    -moz-transform:rotateY(180deg); /* Firefox 
+    border-radius: 20px;
+}*/
+
+video {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    display: none;
+}
+        
+
+canvas {
+    position: absolute;
+    top: 0px; 
+    left: 0px; 
+    right: 0px; 
+    bottom: 0px; 
+    margin: auto;
+}
