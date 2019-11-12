@@ -1,3 +1,47 @@
+/* Column separation 
+* {
+    box-sizing: border-box;
+}
+.column {
+    float: left;
+    padding: 10px;
+}
+.left, .right {
+    width: 25%;
+}
+.middle {
+    width: 50%;
+}
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/* end columns separation */
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+}
+
+
+@media screen and (min-width: 800px) {
+    .column {
+      flex: 1
+    }
+}
+
+
+
 
 html, body {
     height:100%;
@@ -7,13 +51,6 @@ html, body {
     background-color: rgb(233, 251, 152);
 }
 
-/*video {
-    transform: rotateY(180deg);
-    -webkit-transform:rotateY(180deg); /* Safari and Chrome 
-    -moz-transform:rotateY(180deg); /* Firefox 
-    border-radius: 20px;
-}*/
-
 video {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
@@ -21,15 +58,14 @@ video {
     transform: scaleX(-1);
 }
         
-
+/*
 canvas, video {
     position: absolute;
-    top: 0px; 
-    left: 0px; 
-    right: 0px; 
-    /*bottom: 0px; */
+    top: 0px;
+    left: 0px;
+    right: 0px;
     margin: auto;
-}
+}*/
 
 button {
     border-radius: 10px;
@@ -38,7 +74,22 @@ button {
     border-width: 0px;
 }
 
-#buttons-div {
+/*#buttons-div {
     display: flex;
     justify-content: center;
-}
+}*/
+
+/*Overlay */
+#overlay-div {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }

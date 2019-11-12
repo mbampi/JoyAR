@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <link rel="stylesheet" href="src/style.css">
     <link rel="stylesheet" href="src/croppie.css" />
     
@@ -13,14 +14,25 @@
 </head>
 
 <body>
-    <div id="view-div"></div>
+    <div class="row">
+    <div id="buttons-div" class="column left">
+        <button id="take-picture"> Tirar Foto </button>
+        <input id="upload-picture" type="file" accept="image/*"> 
+    </div>
+
+    <div id="view-div" class="column middle"></div>
     
-    <div id="buttons-div"></div>
-    <div id="input-div"></div>
+    <div id="store-div" class="column right">
+        <p> This store is nice and the product is blue </p>
+    </div>
+    </div>
+    <div id="overlay-div">
+        <button id="ready-image"> Pronto </button>
+    </div>
 
     <img id="brinco" src='#' height="1px" width="1px">
     <img id="colar" src='#' height="1px" width="1px">
-
+    
     <script src="https://unpkg.com/@tensorflow/tfjs"></script>
     <script src="https://unpkg.com/@tensorflow-models/posenet"></script>
     <script src="src/croppie.js"></script>

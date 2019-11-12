@@ -14,17 +14,13 @@ const viewDiv = document.getElementById("view-div");
 const view = document.createElement("canvas");
 const viewCtx = view.getContext('2d');
 viewDiv.appendChild(view);
-
-const inputDiv = document.getElementById('input-div');
+view.style.display = 'none';
 
 const video = document.createElement('video');
 viewDiv.appendChild(video);
 
-croppedButton = document.createElement('button');
-croppedButton.innerText = "Pronto";
-inputDiv.appendChild(croppedButton);
 
-// -- MAIN
+/* -- MAIN -- */
 const cropper = addCropper();
 setTakePictureButton();
 setUploadPictureButton();
@@ -35,36 +31,48 @@ setProductsScale(videoSize);
 /* ---- Functions ---- */
 
 function addCropper(){
+  let overlayDiv = document.getElementById('overlay-div');
+
   let opts = {
-    viewport: { width: videoSize*0.8, height: videoSize*0.8, type: 'square' },
-    boundary: { width: videoSize, height: videoSize },
+    viewport: { width: videoSize*0.7, height: videoSize*0.7, type: 'square' },
+    boundary: { width: videoSize*0.8, height: videoSize*0.8 },
     showZoomer: true,
     enableOrientation: true
   }
+  let croppie = new Croppie(overlayDiv, opts);
+
+  let readyImageButton = document.getElementById('ready-image');
+  readyImageButton.onclick = function() {
+    view.width = videoSize;
+    view.height = videoSize;
+    viewDiv.style.height = videoSize;
+    viewDiv.style.width = videoSize;
   
-  return new Croppie(inputDiv, opts);
+    cropper.result({type: 'rawcanvas', size: {width: videoSize, height: videoSize} })
+      .then(function(canvas){
+        overlayOff();
+        renderView(canvas); 
+      });
+  }
+  
+  return croppie;
 }
 
 function setTakePictureButton() {
-  let takePictureButton = document.createElement("button");
-  takePictureButton.innerText = "Tirar Foto";
-  takePictureButton.style.marginTop = videoSize+"px";
-  takePictureButton.style.width = videoSize+"px";
-  takePictureButton.style.height = "50px";
-
-  let buttonsDiv = document.getElementById("buttons-div");
-  buttonsDiv.appendChild(takePictureButton);
+  let takePictureButton = document.getElementById("take-picture");
 
   takePictureButton.addEventListener("click", function() {
     view.width = videoSize;
     view.height = videoSize;
 
     if (isDisplayingResult) {
+      view.style.display = "none";
       video.style.display = "block";
       isDisplayingResult = false;
     }
     else {
       renderView(video, flip=true)
+      view.style.display = "block";
       video.style.display = "none";
       isDisplayingResult = true;
     }
@@ -72,20 +80,11 @@ function setTakePictureButton() {
 }
 
 function setUploadPictureButton() {
-  let uploadPictureButton = document.createElement("input");
-  uploadPictureButton.setAttribute('id', 'picture-upload');
-  uploadPictureButton.setAttribute('type', 'file');
-  uploadPictureButton.setAttribute('accept', 'image/*');
-  uploadPictureButton.innerText = "Carregar Foto";
-  uploadPictureButton.style.marginTop = (videoSize+50)+"px";
-  uploadPictureButton.style.width = videoSize+"px";
-  uploadPictureButton.style.height = "50px";
-
+  let uploadPicture = document.getElementById("upload-picture");
   let buttonsDiv = document.getElementById("buttons-div");
-  buttonsDiv.appendChild(uploadPictureButton);
+  buttonsDiv.appendChild(uploadPicture);
 
-  const pictureInput = document.getElementById('picture-upload');
-  pictureInput.addEventListener('change', (e) => readFile(e.target.files[0]));
+  uploadPicture.addEventListener('change', (e) => readFile(e.target.files[0]));
 }
 
 function readFile(file){
@@ -95,6 +94,7 @@ function readFile(file){
     console.log('picture loaded');
     processFile(reader.result);
     video.style.display = "none";
+    view.style.display = "block";
     isDisplayingResult = true;
   }
 
@@ -109,18 +109,7 @@ function processFile(dataURL) {
   
   image.onload = function () { 
     cropper.bind({ url: dataURL });
-    
-    croppedButton.onclick = function() {
-      view.width = videoSize;
-      view.height = videoSize;
-      viewDiv.style.height = videoSize;
-      viewDiv.style.width = videoSize;
-
-      cropper.result({type: 'rawcanvas', size: {width: videoSize, height: videoSize} })
-        .then(function(canvas){ 
-          renderView(canvas); 
-        });
-    };
+    overlayOn();
   };
 
 	image.onerror = function () { alert('Erro ao carregar a imagem!'); };
@@ -186,4 +175,13 @@ async function estimatePose(image){
   let pose = await net.api.estimateSinglePose(image, net.scaleFactor, net.flipHorizontal, net.outputStride);
 
   return pose;
+}
+
+
+function overlayOn() {
+  document.getElementById("overlay-div").style.display = "block";
+}
+
+function overlayOff() {
+  document.getElementById("overlay-div").style.display = "none";
 }
