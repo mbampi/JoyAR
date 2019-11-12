@@ -16,6 +16,17 @@ const viewCtx = view.getContext('2d');
 viewDiv.appendChild(view);
 view.style.display = 'none';
 
+view.onclick = function(mouse){
+  let x = mouse.x - view.offsetLeft;
+  let y = mouse.y - view.offsetTop;
+  
+  if (x < view.width/2) {
+    console.log("<-");
+  } else { 
+    console.log("->");
+  }
+}
+
 const video = document.createElement('video');
 viewDiv.appendChild(video);
 
@@ -166,6 +177,7 @@ async function renderView(image, flip=false){
   console.time("TensorflowRequest");
   let pose = await estimatePose(image);
   console.timeEnd("TensorflowRequest");
+
   drawProducts(pose.keypoints, viewCtx);
 
   viewCtx.restore();
