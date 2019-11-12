@@ -3,7 +3,7 @@ const videoSize = Math.min(window.innerWidth, window.innerHeight);
 
 const net = {
   api: '',
-  scaleFactor: 1, // (0.2 to 1) faster=lower
+  scaleFactor: 0.5, // (0.2 to 1) faster=lower
   flipHorizontal: false,
   outputStride: 16 // (8, 16, 32) faster=higher
 }
@@ -20,8 +20,12 @@ const inputDiv = document.getElementById('input-div');
 const video = document.createElement('video');
 viewDiv.appendChild(video);
 
+croppedButton = document.createElement('button');
+croppedButton.innerText = "Pronto";
+inputDiv.appendChild(croppedButton);
 
 // -- MAIN
+const cropper = addCropper();
 setTakePictureButton();
 setUploadPictureButton();
 loadVideo();
@@ -29,6 +33,17 @@ setProductsScale(videoSize);
 
 
 /* ---- Functions ---- */
+
+function addCropper(){
+  let opts = {
+    viewport: { width: videoSize*0.8, height: videoSize*0.8, type: 'square' },
+    boundary: { width: videoSize, height: videoSize },
+    showZoomer: true,
+    enableOrientation: true
+  }
+  
+  return new Croppie(inputDiv, opts);
+}
 
 function setTakePictureButton() {
   let takePictureButton = document.createElement("button");
@@ -44,12 +59,12 @@ function setTakePictureButton() {
     view.width = videoSize;
     view.height = videoSize;
 
-    if(isDisplayingResult) {
+    if (isDisplayingResult) {
       video.style.display = "block";
       isDisplayingResult = false;
     }
     else {
-      renderView(video)
+      renderView(video, flip=true)
       video.style.display = "none";
       isDisplayingResult = true;
     }
@@ -77,56 +92,39 @@ function readFile(file){
   let reader = new FileReader();
     
   reader.onloadend = function () {
-    console.log('loaded end');
+    console.log('picture loaded');
     processFile(reader.result);
     video.style.display = "none";
     isDisplayingResult = true;
   }
-  reader.onerror = function () {
-    alert('There was an error reading the file!');
-  }
+
+  reader.onerror = function () { alert('Erro ao ler a imagem!');  }
+
   reader.readAsDataURL(file);
 }
 
 function processFile(dataURL) {
   let image = new Image();
+  image.src = dataURL;
   
-	image.src = dataURL;
   image.onload = function () { 
-    let opts = {
-      viewport: { width: videoSize*0.8, height: videoSize*0.8, type: 'square' },
-      boundary: { width: videoSize, height: videoSize },
-      showZoomer: true,
-      enableOrientation: true
-    }
-    let c = new Croppie(inputDiv, opts);
-
-    c.bind({
-      url: dataURL
-    })
-
-    croppedButton = document.createElement('button');
-    croppedButton.innerText = "Pronto";
-    inputDiv.appendChild(croppedButton);
-
+    cropper.bind({ url: dataURL });
+    
     croppedButton.onclick = function() {
       view.width = videoSize;
       view.height = videoSize;
       viewDiv.style.height = videoSize;
       viewDiv.style.width = videoSize;
-      
-      c.result({type: 'rawcanvas', size: {width: videoSize, height: videoSize} }).then(function(canvas){
-        console.log(canvas);
-        image.src = canvas.toDataURL();
-        renderView(canvas);
-      });
+
+      cropper.result({type: 'rawcanvas', size: {width: videoSize, height: videoSize} })
+        .then(function(canvas){ 
+          renderView(canvas); 
+        });
     };
   };
-	image.onerror = function () {
-		alert('There was an error processing your file!');
-	};
-}
 
+	image.onerror = function () { alert('Erro ao carregar a imagem!'); };
+}
 
 function loadVideo(){
   console.log("loading video..");
@@ -165,18 +163,20 @@ function loadPosenet(){
   });
 }
 
-async function renderView(image){
+async function renderView(image, flip=false){
+  viewCtx.clearRect(0, 0, videoSize, videoSize);
+  viewCtx.save();
+
+  if (flip) {
+    viewCtx.scale(-1, 1);
+    viewCtx.translate(-videoSize, 0);
+  }
+
+  viewCtx.drawImage(image, 0, 0, videoSize, videoSize);
+
   console.time("TensorflowRequest");
   let pose = await estimatePose(image);
   console.timeEnd("TensorflowRequest");
-
-  viewCtx.clearRect(0, 0, videoSize, videoSize);
-  viewCtx.save();
-  //viewCtx.scale(-1, 1);
-  //viewCtx.translate(-videoSize, 0);
-
-  viewCtx.drawImage(image, 0, 0, videoSize, videoSize);
-  console.log(pose.keypoints);
   drawProducts(pose.keypoints, viewCtx);
 
   viewCtx.restore();
