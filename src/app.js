@@ -1,5 +1,6 @@
 
 const videoSize = Math.min(window.innerWidth, window.innerHeight);
+var lastKeypoints = null;
 
 const net = {
   api: '',
@@ -11,20 +12,23 @@ const net = {
 var isDisplayingResult = false;
 
 const viewDiv = document.getElementById("view-div");
-const view = document.createElement("canvas");
-const viewCtx = view.getContext('2d');
-viewDiv.appendChild(view);
-view.style.display = 'none';
+//const view = document.createElement("canvas");
+const view = document.getElementById("image-canvas");
+const productCanvas = document.getElementById("product-canvas");
 
-view.onclick = function(mouse){
+const viewCtx = view.getContext('2d');
+
+productCanvas.onclick = function(mouse){
   let x = mouse.x - view.offsetLeft;
-  let y = mouse.y - view.offsetTop;
   
   if (x < view.width/2) {
     console.log("<-");
+    previousProduct();
   } else { 
     console.log("->");
+    nextProduct();
   }
+  renderProduct(lastKeypoints);
 }
 
 const video = document.createElement('video');
@@ -36,7 +40,6 @@ const cropper = addCropper();
 setTakePictureButton();
 setUploadPictureButton();
 loadVideo();
-setProductsScale(videoSize);
 
 
 /* ---- Functions ---- */
@@ -80,15 +83,19 @@ function setTakePictureButton() {
   takePictureButton.addEventListener("click", function() {
     view.width = videoSize;
     view.height = videoSize;
-
+    productCanvas.width = videoSize;
+    productCanvas.height = videoSize;
+    
     if (isDisplayingResult) {
       view.style.display = "none";
+      productCanvas.style.display = "none";
       video.style.display = "block";
       isDisplayingResult = false;
     }
     else {
       renderView(video, flip=true)
       view.style.display = "block";
+      productCanvas.style.display = "block";
       video.style.display = "none";
       isDisplayingResult = true;
     }
@@ -111,6 +118,7 @@ function readFile(file){
     processFile(reader.result);
     video.style.display = "none";
     view.style.display = "block";
+    productCanvas.style.display = "block";
     isDisplayingResult = true;
   }
 
@@ -163,29 +171,40 @@ function loadPosenet(){
   posenet.load().then(function(loadedPosenet) {
     net.api = loadedPosenet;
     console.log("loaded Posenet");
-    changeNecklace(1);
-    changeEarring(1);
+    initiateProduct(videoSize);
   });
 }
 
 async function renderView(image, flip=false){
-  viewCtx.clearRect(0, 0, videoSize, videoSize);
-  viewCtx.save();
-
-  if (flip) {
-    viewCtx.scale(-1, 1);
-    viewCtx.translate(-videoSize, 0);
-  }
-
-  viewCtx.drawImage(image, 0, 0, videoSize, videoSize);
+  renderImage(image);
 
   console.time("TensorflowRequest");
   let pose = await estimatePose(image);
   console.timeEnd("TensorflowRequest");
 
-  drawProducts(pose.keypoints, viewCtx);
+  renderProduct(pose.keypoints);
+}
 
+function renderImage(image){
+  viewCtx.clearRect(0, 0, videoSize, videoSize);
+  viewCtx.save();
+  //if (flip) {
+    viewCtx.scale(-1, 1);
+    viewCtx.translate(-videoSize, 0);
+  //}
+  viewCtx.drawImage(image, 0, 0, videoSize, videoSize);
   viewCtx.restore();
+}
+
+function renderProduct(keypoints){
+  let productLayer = productCanvas.getContext('2d');
+  productLayer.clearRect(0, 0, videoSize, videoSize);
+  //if (flip) {
+    productLayer.scale(-1, 1);
+    productLayer.translate(-videoSize, 0);
+  //}
+  drawProduct(keypoints, productLayer);
+  lastKeypoints = keypoints;
 }
 
 async function estimatePose(image){

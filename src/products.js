@@ -1,36 +1,62 @@
 
 let minPartConfidence = 0.6;
+var currentProduct = { name: "Brinco 1", type: "earring", img: "img/brinco1.png", size: 40, offset: {x: 0, y: 0} };
+var currentProductIndex = 2;
+var productList = [
+  { name: "Brinco 0", type: "earring", img: "img/brinco0.png", size: 40, offset: {x: 0, y: 0} },
+  { name: "Colar 0", type: "necklace", img: "img/colar0.png", size: 100, offset: {x: 0, y: 0} },
+  { name: "Brinco 1", type: "earring", img: "img/brinco1.png", size: 40, offset: {x: 0, y: 0} },
+  { name: "Colar 1", type: "necklace", img: "img/colar1.png", size: 100, offset: {x: 0, y: 0} },
+  { name: "Brinco 2", type: "earring", img: "img/brinco2.png", size: 40, offset: {x: 0, y: 0} },
+  { name: "Colar 2", type: "necklace", img: "img/colar2.png", size: 100, offset: {x: 0, y: 0} }
+];
 
-var currentEarring = { name: "Brinco 1", type: "earring", img: "img/brinco1.png", size: 40, offset: {x: 0, y: 0} };
-var currentNecklace = { name: "Colar 1", type: "necklace", img: "img/coalr1.png", size: 100, offset: {x: 0, y: 0} };
+let productImg = new Image();
 
-let brincoImg = new Image();
-let colarImg = new Image();
-brincoImg.onload = function() { document.getElementById('brinco').setAttribute('src', this.src); };
-colarImg.onload = function() { document.getElementById('colar').setAttribute('src', this.src); };
-
+let earringSize, earringOffsetX, earringOffsetY = 0;
+let necklaceSize, necklaceOffsetX, necklaceOffsetY = 0;
 
 function setProductsScale(videoSize) {
     if (isMobile() === true) { videoSize = Math.floor(videoSize * 1.6); }
     /* because people on mobile are closer to the screen,
     so the product should appear bigger */
     
-    currentEarring.size = videoSize * 40 / 480;
-    currentEarring.offset.x = -(videoSize * 20 / 480); //10
-    currentEarring.offset.y = +(videoSize * 10 / 480); //18
+    earringSize = videoSize * 40 / 480;
+    earringOffsetX = -(videoSize * 20 / 480); //10
+    earringOffsetY = +(videoSize * 10 / 480); //18
 
-    currentNecklace.size = videoSize * 200 / 480;
-    currentNecklace.offset.x = -(videoSize * 100 / 480);
-    currentNecklace.offset.y = -(videoSize * 50 / 480);
+    necklaceSize = videoSize * 200 / 480;
+    necklaceOffsetX = -(videoSize * 100 / 480);
+    necklaceOffsetY = -(videoSize * 50 / 480);
 }
 
-function changeEarring(model){
-    brincoImg.src = 'img/brinco' + model + '.png';
+function initiateProduct(videoSize){
+  setProductsScale(videoSize);
+  currentProductIndex = 0;
+  currentProduct = productList[currentProductIndex];
+  productImg.src = currentProduct.img;
 }
 
-function changeNecklace(model){
-    colarImg.src = 'img/colar' + model + '.png';
+function nextProduct(){
+  if(currentProductIndex + 1 < productList.length){
+    currentProductIndex += 1;
+  } else {
+    currentProductIndex = 0;
+  }
+  currentProduct = productList[currentProductIndex];
+  productImg.src = currentProduct.img;
 }
+
+function previousProduct(){
+  if(currentProductIndex - 1 >= 0){
+    currentProductIndex -= 1;
+  } else {
+    currentProductIndex = productList.length - 1;
+  }
+  currentProduct = productList[currentProductIndex];
+  productImg.src = currentProduct.img;
+}
+
 
 function drawProducts(keypoints, ctx, scale = 1) {
     let shoulders = []
@@ -60,4 +86,43 @@ function drawProducts(keypoints, ctx, scale = 1) {
 
       ctx.drawImage(colarImg, adjustedX, adjustedY, currentNecklace.size, currentNecklace.size);
     }
+}
+
+const leftEarIndex = 3;
+const rightEarIndex = 4;
+const leftShoulderIndex = 5;
+const rightShoulderIndex = 6;
+
+function drawProduct(keypoints, ctx, scale = 1) {
+  if (currentProduct.type = 'earring'){
+
+    let leftEar = keypoints[leftEarIndex];
+    let rightEar = keypoints[rightEarIndex];
+
+    if(leftEar.score > minPartConfidence){
+      let adjustedX = Math.floor(leftEar.position.x * scale + earringOffsetX);
+      let adjustedY = Math.floor(leftEar.position.y * scale + earringOffsetY);
+      ctx.drawImage(productImg, adjustedX, adjustedY, earringSize, earringSize);
+    }
+    if(rightEar.score > minPartConfidence){
+      let adjustedX = Math.floor(rightEar.position.x * scale + earringOffsetX);
+      let adjustedY = Math.floor(rightEar.position.y * scale + earringOffsetY);
+      ctx.drawImage(productImg, adjustedX, adjustedY, earringSize, earringSize);
+    }
+
+  } else if (currentProduct.type = 'necklace'){
+
+    let leftShoulder = keypoints[leftShoulderIndex];
+    let rightShoulder = keypoints[rightShoulderIndex];
+
+    if(leftShoulder.score > minPartConfidence && rightShoulder.score > minPartConfidence){
+      let x = Math.floor((leftShoulder.position.x + rightShoulder.position.x) /2);
+      let y = Math.floor((leftShoulder.position.y + rightShoulder.position.y) /2);
+      let adjustedX = x * scale + necklaceOffsetX;
+      let adjustedY = y * scale + necklaceOffsetY;
+
+      ctx.drawImage(productImg, adjustedX, adjustedY, necklaceSize, necklaceSize);
+    }
+
+  }
 }

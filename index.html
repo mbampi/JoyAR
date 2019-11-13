@@ -24,7 +24,12 @@
             <input id="upload-picture" type="file" accept="image/*"> 
         </div>
 
-        <div id="view-div" class="column middle"></div>
+        <div id="view-div" class="column middle">
+            <div id="canvas-container">
+                <canvas id="image-canvas" style="z-index: 0; display:'none' "></canvas>
+                <canvas id="product-canvas" style="z-index: 1; display:'none' "></canvas>
+            </div>
+        </div>
         
         <div id="store-div" class="column right">
             <img id='logo-img' src='img/usphera.png'>

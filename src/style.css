@@ -39,6 +39,10 @@ canvas, video {
     margin: auto;
 }
 
+canvas{
+    position: absolute;
+}
+
 button, input {
     border-radius: 10px;
     color: black;
