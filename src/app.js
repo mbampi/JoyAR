@@ -52,6 +52,11 @@ function addCropper(){
   }
   let croppie = new Croppie(overlayDiv, opts);
 
+  let rotateLeftButton = document.getElementById('rotate-left');
+  rotateLeftButton.onclick = function() { cropper.rotate(-90) };
+  let rotateRightButton = document.getElementById('rotate-right');
+  rotateRightButton.onclick = function() { cropper.rotate(90) };
+
   let readyImageButton = document.getElementById('ready-image');
   readyImageButton.onclick = function() {
     view.width = videoSize;

@@ -13,7 +13,6 @@ html, body {
     width: 100%;
 }
 
-  
 .column {
     display: flex;
     flex-direction: column;
@@ -34,7 +33,6 @@ video {
 }
 
 canvas, video {
-    /*position: absolute;*/
     top: 0px;
     left: 0px;
     right: 0px;
@@ -46,6 +44,9 @@ button, input {
     color: black;
     background-color: white;
     border-width: 0px;
+}
+
+#main-div button, input {
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
@@ -53,23 +54,31 @@ button, input {
     margin-bottom: 10px;
 }
 
+/* -- Buttons Div -- */
+
 #buttons-div {
-    margin: auto 5%;
+    margin: auto auto;
 }
+
+/* -- Store Div -- */
 
 #store-div {
     margin: 5% auto;
 }
 
+/* -- Product Div -- */
+
 #product-div {
     background-color: rgb(235, 243, 127);
     margin: auto auto;
 }
-
-#product-img, #logo-img {
+#product-div img {
     max-width:70%;
     max-height:70%;
 }
+
+
+/* -- Overlay Div -- */
 
 #overlay-div {
     position: fixed; /* Sit on top of the page content */
@@ -83,4 +92,22 @@ button, input {
     background-color: rgba(0,0,0,0.7);
     z-index: 2;
     cursor: pointer;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+#overlay-div button{
+    padding: 6px;
+}
+
+#edit-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 5px;
+}
+#ready-image {
+    width: 20%;
+    margin-left: 2em;
+    margin-right: 2em;
 }

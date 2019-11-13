@@ -15,7 +15,10 @@
 
 <body>
 
-    <div class="row">
+    <!-- ---- -->
+
+    <div id="main-div" class="row">
+
         <div id="buttons-div" class="column left">
             <button id="take-picture"> Tirar Foto </button>
             <input id="upload-picture" type="file" accept="image/*"> 
@@ -31,11 +34,22 @@
                 <img id='product-img' src='img/brinco1.png'>
             </div>
         </div>
+
     </div>
 
+    <!-- ---- -->
+
     <div id="overlay-div">
-        <button id="ready-image"> Pronto </button>
+
+        <div id='edit-options'>
+            <button id="rotate-left"> Girar para Esquerda </button>
+            <button id="ready-image"> Pronto </button>
+            <button id="rotate-right"> Girar para Direita </button>
+        </div>
+
     </div>
+
+    <!-- ---- -->
 
     <img id="brinco" src='#' height="1px" width="1px">
     <img id="colar" src='#' height="1px" width="1px">
