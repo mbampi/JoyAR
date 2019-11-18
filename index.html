@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="src/style.css">
-    <link rel="stylesheet" href="src/croppie.css" />
-    
+    <link rel="stylesheet" href="modules/croppie.css" />
+    <link rel="stylesheet" href="style.css">
+
     <title>JoyAR v1.0</title>
 </head>
 
@@ -21,16 +21,21 @@
 
         <div id="buttons-div" class="column left">
             <button id="take-picture"> Tirar Foto </button>
-            <input id="upload-picture" type="file" accept="image/*"> 
+            <input id="upload-picture" type="file" accept="image/*">
+            <a id='download-button'> download </a>
         </div>
 
         <div id="view-div" class="column middle">
-            <div id="canvas-container">
-                <canvas id="image-canvas" style="z-index: 0; display:'none' "></canvas>
-                <canvas id="product-canvas" style="z-index: 1; display:'none' "></canvas>
+            <div id="canvas-container" style="position: relative;">
+                <video id="video-input" loop playsinline muted autoplay
+                    style="position: absolute; margin: 0 auto"></video>
+                <canvas id="image-canvas"
+                    style="z-index: 0; display: none; position: absolute; margin: 0 auto"></canvas>
+                <canvas id="product-canvas"
+                    style="z-index: 1; display: none; position: absolute; margin: 0 auto"></canvas>
             </div>
         </div>
-        
+
         <div id="store-div" class="column right">
             <img id='logo-img' src='img/usphera.png'>
             <div id='product-div'>
@@ -56,15 +61,14 @@
 
     <!-- ---- -->
 
-    <img id="brinco" src='#' height="1px" width="1px">
-    <img id="colar" src='#' height="1px" width="1px">
-    
     <script src="https://unpkg.com/@tensorflow/tfjs"></script>
     <script src="https://unpkg.com/@tensorflow-models/posenet"></script>
-    <script src="src/croppie.js"></script>
-    <script src="src/util.js"></script>
-    <script src="src/products.js"></script>
-    <script src="src/app.js"></script>
+    <script src="modules/croppie.js"></script>
+    <script src="View.js"></script>
+    <script src="Estimator.js"></script>
+    <script src="Product.js"></script>
+    <script src="App.js"></script>
+    <script src="frontend.js"></script>
 </body>
 
 </html>

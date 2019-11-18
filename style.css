@@ -6,6 +6,17 @@ html, body {
     background-color: rgb(233, 251, 152);
 }
 
+/* Column separation */
+* {
+    box-sizing: border-box;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -39,10 +50,6 @@ canvas, video {
     margin: auto;
 }
 
-canvas{
-    position: absolute;
-}
-
 button, input {
     border-radius: 10px;
     color: black;
@@ -67,7 +74,7 @@ button, input {
 /* -- Store Div -- */
 
 #store-div {
-    margin: 5% auto;
+    margin: auto auto;
 }
 
 /* -- Product Div -- */
@@ -76,7 +83,7 @@ button, input {
     background-color: rgb(235, 243, 127);
     margin: auto auto;
 }
-#product-div img {
+#store-div img {
     max-width:70%;
     max-height:70%;
 }
@@ -114,4 +121,12 @@ button, input {
     width: 20%;
     margin-left: 2em;
     margin-right: 2em;
+}
+
+.left, .right {
+    width: 25%;
+}
+
+.middle {
+    width: 50%;
 }
