@@ -28,6 +28,7 @@ view.productCanvas.onclick = (mouse) => {
     }
 
     view.renderProduct(app.currentProduct, estimator.lastEstimation.keypoints);
+    updateStore(app.currentProduct);
   }
 };
 
@@ -67,6 +68,7 @@ async function renderView(image) {
   console.timeEnd("TensorflowRequest");
 
   view.renderProduct(app.currentProduct, pose.keypoints);
+  updateStore(app.currentProduct);
 }
 
 // --- UPLOAD PICTURE AND OVERLAY ---
@@ -137,4 +139,11 @@ function isMobile() {
 
   console.log("isMobile?" + isThisMobile);
   return isThisMobile;
+}
+
+function updateStore(product) {
+  document.getElementById('product-name').innerHTML = product.name;
+  document.getElementById('product-price').innerHTML = product.price;
+  // document.getElementById('product-description') = product.description;
+  document.getElementById('product-img').src = product.img;
 }

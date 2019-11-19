@@ -14,11 +14,11 @@ class App {
         // load products from database 'where type == currentProduct.type
 
         let products = [
-            { name: "Brinco 0", type: "earring", img: "img/brinco0.png", size: 40, offset: { x: 0, y: 0 } },
+            { name: "Brinco 0", type: "earring", img: "img/brinco0.png", link: "www.usphera.com", price: '14.99', size: 40, offset: { x: 0, y: 0 } },
             //{ name: "Colar 0", type: "necklace", img: "img/colar0.png", size: 100, offset: { x: 0, y: 0 } },
-            { name: "Brinco 1", type: "earring", img: "img/brinco1.png", size: 40, offset: { x: 0, y: 0 } },
+            { name: "Brinco 1", type: "earring", img: "img/brinco1.png", link: "www.usphera.com", price: '200.00', size: 40, offset: { x: 0, y: 0 } },
             //{ name: "Colar 1", type: "necklace", img: "img/colar1.png", size: 100, offset: { x: 0, y: 0 } },
-            { name: "Brinco 2", type: "earring", img: "img/brinco2.png", size: 40, offset: { x: 0, y: 0 } },
+            { name: "Brinco 2", type: "earring", img: "img/brinco2.png", link: "www.usphera.com", price: '120.50', size: 40, offset: { x: 0, y: 0 } },
             //{ name: "Colar 2", type: "necklace", img: "img/colar2.png", size: 100, offset: { x: 0, y: 0 } }
         ];
 
