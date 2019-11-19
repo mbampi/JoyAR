@@ -3,6 +3,7 @@
 
 let isDisplayingResult = false;
 let viewSize = Math.min(window.innerWidth, window.innerHeight);
+//document.getElementById('view-div').width = viewSize;
 
 const view = new View(viewSize);
 

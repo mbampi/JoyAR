@@ -21,23 +21,29 @@ class View {
 
     constructor(screenSize) {
         this.screenSize = screenSize;
+
+        this.viewDiv = document.getElementById('view-div');
+        this.viewDiv.style.width = screenSize.toString() + "px";
+        this.viewDiv.style.height = screenSize.toString() + "px";
+
+
         this.productCanvas = document.getElementById('product-canvas');
         this.productCanvas.width = screenSize;
         this.productCanvas.height = screenSize;
-        this.productCanvas.style.width = screenSize;
-        this.productCanvas.style.height = screenSize;
+        // this.productCanvas.style.width = screenSize;
+        // this.productCanvas.style.height = screenSize;
         this.productCanvasCtx = this.productCanvas.getContext('2d');
 
         this.imageCanvas = document.getElementById('image-canvas');
         this.imageCanvas.width = screenSize;
         this.imageCanvas.height = screenSize;
-        this.imageCanvas.style.width = screenSize;
-        this.imageCanvas.style.height = screenSize;
+        // this.imageCanvas.style.width = screenSize;
+        // this.imageCanvas.style.height = screenSize;
         this.imageCanvasCtx = this.imageCanvas.getContext('2d');
 
         this.videoInput = document.getElementById('video-input');
-        this.videoInput.style.width = screenSize;
-        this.videoInput.style.height = screenSize;
+        //this.videoInput.style.width = screenSize;
+        //this.videoInput.style.height = screenSize;
         let videoQuality = screenSize;
         let facingMode = "user";
         let constraints = {

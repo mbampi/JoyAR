@@ -1,3 +1,5 @@
+*{ margin: auto auto; }
+
 html, body {
     height:100%;
     width:100%;
@@ -6,35 +8,37 @@ html, body {
     background-color: rgb(233, 251, 152);
 }
 
-/* Column separation */
-* {
-    box-sizing: border-box;
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.row {
+.flex-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     width: 100%;
-}
+  }
 
 .column {
     display: flex;
     flex-direction: column;
-    flex-basis: 100%;
+}
+.middle{
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+.right, .left{ flex: auto; }
+
+@media screen and (orientation:portrait) {
+    .flex-container{ flex-direction: column; }
+    .left{ order: 2; }
+    .right{ order: 3; }
+    .middle{ order: 1; }
 }
 
-@media screen and (min-width: 800px) {
-    .column {
-      flex: 1
-    }
-}
+@media screen and (orientation:landscape) {
+    .flex-container{ flex-direction: row; }
+    .left{ order: 3; }
+    .right{ order: 1; }
+    .middle{ order: 2; }
+} 
+
+/* --- Divs --- */
 
 video {
     -moz-transform: scaleX(-1);
@@ -55,39 +59,14 @@ button, input {
     color: black;
     background-color: white;
     border-width: 0px;
-}
-
-#main-div button, input {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-/* -- Buttons Div -- */
-
-#buttons-div {
     margin: auto auto;
 }
 
-/* -- Store Div -- */
+#view-div { display: block; }
 
-#store-div {
-    margin: auto auto;
-}
+#store-div img{ max-width: 100px; }
 
-/* -- Product Div -- */
-
-#product-div {
-    background-color: rgb(235, 243, 127);
-    margin: auto auto;
-}
-#store-div img {
-    max-width:70%;
-    max-height:70%;
-}
-
+#product-div { background-color: rgb(235, 243, 127); }
 
 /* -- Overlay Div -- */
 
@@ -121,12 +100,4 @@ button, input {
     width: 20%;
     margin-left: 2em;
     margin-right: 2em;
-}
-
-.left, .right {
-    width: 25%;
-}
-
-.middle {
-    width: 50%;
 }
