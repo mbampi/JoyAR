@@ -12,8 +12,8 @@ Versao com carregamento de foto da biblioteca do usuario ou captura da camera do
 - CSS
 - JavaScript
 
-- Tensorflow.js
-- Stats.js
+- Tensorflow.js (posenet model)
+- Croppie
 
 
 ## Coded by
