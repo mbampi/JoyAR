@@ -5,7 +5,7 @@ html, body {
     width:100%;
     margin:0;
     padding:0;
-    background-color: rgb(233, 251, 152);
+    background-color: #19A08F;
 }
 
 .flex-container {
@@ -53,23 +53,26 @@ canvas, video {
     margin: auto;
 }
 
-button, input, a { padding: 5px 5px; }
-button, input, a { margin: 10px 10px; }
-button, input, a { height: 70px 70px; }
+button, input, a { 
+    padding: 5px 5px; 
+    margin: 10px 10px; 
+    height: 70px 70px;
+}
 
 button, input {
     border-radius: 10px;
     color: black;
     background-color: white;
     border-width: 0px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 4px 4px 0 rgba(0, 0, 0, 0.24); 
 }
 
-#view-div { display: block; }
+#view-div { 
+    display: block;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2), 0 8px 8px 0 rgba(0, 0, 0, 0.24); 
+}
 
 #store-div img{ max-width: 100px; }
-#buy-img
-
-#product-div { background-color: rgb(235, 243, 127); }
 
 /* -- Overlay Div -- */
 
@@ -103,4 +106,15 @@ button, input {
     width: 20%;
     margin-left: 2em;
     margin-right: 2em;
+}
+
+body {
+    background: #19A08F; /* fallback for old browsers */
+    background: -webkit-linear-gradient(left, #19A08F, #0B726F);
+    background: -moz-linear-gradient(left, #19A08F, #0B726F);
+    background: -o-linear-gradient(left, #19A08F, #0B726F);
+    background: linear-gradient(to right, #19A08F, #0B726F);
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
