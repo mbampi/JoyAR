@@ -1,20 +1,17 @@
 
 let earringSize, earringOffsetX, earringOffsetY = 0;
 let necklaceSize, necklaceOffsetX, necklaceOffsetY = 0;
-let minPartConfidence = 0.6;
+let minPartConfidence = 0.65;
 
-function setProductsScale(videoSize) {
-    //if (isMobile() === true) { videoSize = Math.floor(videoSize * 1.6); }
-    /* because people on mobile are closer to the screen,
-    so the product should appear bigger */
-
+function setProductsScale(videoSize, double = false) {
+    if (double) { videoSize = Math.floor(videoSize * 1.6); };
     earringSize = videoSize * 40 / 480;
-    earringOffsetX = -(videoSize * 20 / 480); //10
-    earringOffsetY = +(videoSize * 10 / 480); //18
+    earringOffsetX = -(videoSize * 17 / 480); //10
+    earringOffsetY = +(videoSize * 15 / 480); //18
 
     necklaceSize = videoSize * 200 / 480;
     necklaceOffsetX = -(videoSize * 100 / 480);
-    necklaceOffsetY = -(videoSize * 50 / 480);
+    necklaceOffsetY = -(videoSize * 60 / 480);
 }
 
 class View {
@@ -26,24 +23,17 @@ class View {
         this.viewDiv.style.width = screenSize.toString() + "px";
         this.viewDiv.style.height = screenSize.toString() + "px";
 
-
         this.productCanvas = document.getElementById('product-canvas');
         this.productCanvas.width = screenSize;
         this.productCanvas.height = screenSize;
-        // this.productCanvas.style.width = screenSize;
-        // this.productCanvas.style.height = screenSize;
         this.productCanvasCtx = this.productCanvas.getContext('2d');
 
         this.imageCanvas = document.getElementById('image-canvas');
         this.imageCanvas.width = screenSize;
         this.imageCanvas.height = screenSize;
-        // this.imageCanvas.style.width = screenSize;
-        // this.imageCanvas.style.height = screenSize;
         this.imageCanvasCtx = this.imageCanvas.getContext('2d');
 
         this.videoInput = document.getElementById('video-input');
-        //this.videoInput.style.width = screenSize;
-        //this.videoInput.style.height = screenSize;
         let videoQuality = screenSize;
         let facingMode = "user";
         let constraints = {
@@ -59,7 +49,7 @@ class View {
                 console.log("video atribuido");
             });
 
-        setProductsScale(screenSize);
+        //setProductsScale(screenSize);
         this.hideCanvas();
         this.showVideo();
     }

@@ -12,8 +12,7 @@ html, body {
     display: flex;
     flex-direction: row;
     width: 100%;
-  }
-
+}
 .column {
     display: flex;
     flex-direction: column;
@@ -54,17 +53,21 @@ canvas, video {
     margin: auto;
 }
 
+button, input, a { padding: 5px 5px; }
+button, input, a { margin: 10px 10px; }
+button, input, a { height: 70px 70px; }
+
 button, input {
     border-radius: 10px;
     color: black;
     background-color: white;
     border-width: 0px;
-    margin: auto auto;
 }
 
 #view-div { display: block; }
 
 #store-div img{ max-width: 100px; }
+#buy-img
 
 #product-div { background-color: rgb(235, 243, 127); }
 

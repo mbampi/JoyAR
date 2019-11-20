@@ -1,12 +1,11 @@
 
 class App {
 
-    constructor(screenSize) {
+    constructor() {
         this.currentProductIndex = 0;
         let initialType = 'earring';
         this.productList = this.loadProducts(initialType);
         this.currentProduct = this.productList[this.currentProductIndex];
-        setProductsScale(screenSize);
     }
 
     loadProducts(type = null) {
