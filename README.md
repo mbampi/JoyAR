@@ -1,21 +1,5 @@
-# JoyAR v1
+# JoyAR
 
-JoyAR v1 - UspheraXR
-
-## Description
-
-Plataforma web para teste de Joias.
-Versao com carregamento de foto da biblioteca do usuario ou captura da camera do device do usuario
-
-## Utilizando
-- HTML
-- CSS
-- JavaScript
-
-- Tensorflow.js (posenet model)
-- Croppie
-
-
-## Coded by
-
-Matheus D Bampi (@mbampi)
+JoyAR website made for Usphera.<br/>
+An AR platform to show products in augmented reality. Made for earrings.<br/>
+Using tensorflow and posenet.
