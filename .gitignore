@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/git,linux,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=git,linux,visualstudiocode
 
+*/.DS_Store
+
 ### Git ###
 # Created by git for backups. To disable backups in Git:
 # $ git config --global mergetool.keepBackup false
