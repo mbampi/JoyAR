@@ -5,6 +5,9 @@ config/
 # folder for temporary images
 temp/
 
+# Mac related
+.DS_Store
+
 
 # Created by https://www.gitignore.io/api/node,linux,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=node,linux,visualstudiocode
